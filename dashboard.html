@@ -1,0 +1,99 @@
+<!-- dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="text-center mb-4">Dashboard</h1>
+
+        <!-- Display user details -->
+        <p>Welcome, <span id="name"></span>!</p>
+        <p>Roll Number: <span id="rollNumber"></span></p>
+
+        <!-- Date and Time -->
+        <div class="mt-4">
+          <p id="dateTime"><span id="currentDateTime"></span></p>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="dashboard.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="logout.html">Logout</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div id="mainContent">
+          <h2>Categories</h2>
+          <ul>
+            <li><a href="#" onclick="showAttendance()">Attendance</a></li>
+            <li><a href="#" onclick="showTimeTable()">Time Table</a></li>
+            <li><a href="#" onclick="showDeadlines()">Deadlines</a></li>
+            <li><a href="#" onclick="showToDoLists()">To-Do Lists</a></li>
+          </ul>
+
+          <div id="contentArea">
+            <!-- Content for the selected category will be displayed here -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Retrieve user details from sessionStorage
+    const name = sessionStorage.getItem('name');
+    const rollNumber = sessionStorage.getItem('rollNumber');
+
+    // Display user details
+    document.getElementById('name').textContent = name;
+    document.getElementById('rollNumber').textContent = rollNumber;
+
+    // Function to update date and time
+    function updateDateTime() {
+      const currentDateTimeElement = document.getElementById('currentDateTime');
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      const formattedDateTime = now.toLocaleDateString('en-US', options);
+      currentDateTimeElement.textContent = formattedDateTime;
+    }
+    updateDateTime();
+
+    setInterval(updateDateTime, 1000);
+
+    function showAttendance() {
+      document.getElementById('contentArea').innerHTML = '<p>Attendance content goes here.</p>';
+    }
+
+    function showTimeTable() {
+      document.getElementById('contentArea').innerHTML = '<p>Time Table content goes here.</p>';
+    }
+
+    function showDeadlines() {
+      document.getElementById('contentArea').innerHTML = '<p>Deadlines content goes here.</p>';
+    }
+
+    function showToDoLists() {
+      document.getElementById('contentArea').innerHTML = '<p>To-Do Lists content goes here.</p>';
+    }
+  </script>
+</body>
+</html>
