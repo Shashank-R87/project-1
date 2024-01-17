@@ -12,29 +12,23 @@
     <div class="card">
       <div class="card-body">
         <h1 class="text-center mb-4">Dashboard</h1>
-
-        <!-- Display user details -->
         <p>Welcome, <span id="name"></span>!</p>
         <p>Roll Number: <span id="rollNumber"></span></p>
 
-        <!-- Date and Time -->
         <div class="mt-4">
           <p id="dateTime"><span id="currentDateTime"></span></p>
         </div>
 
-        <!-- Navigation Links -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a class="nav-link" href="dashboard.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="logout.html">Logout</a>
+              <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
             </li>
           </ul>
         </nav>
-
-        <!-- Main Content -->
         <div id="mainContent">
           <h2>Categories</h2>
           <ul>
@@ -46,7 +40,6 @@
           </ul>
 
           <div id="contentArea">
-            <!-- Content for the selected category will be displayed here -->
           </div>
         </div>
 
@@ -58,14 +51,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    const username = sessionStorage.getItem('username');
-const name = sessionStorage.getItem('name');
-const rollNumber = sessionStorage.getItem('rollNumber');
+    const name = sessionStorage.getItem('name');
+    const rollNumber = sessionStorage.getItem('rollNumber');
 
-document.getElementById('username').textContent = username;
-document.getElementById('rollNumber').textContent = rollNumber;
+    document.getElementById('name').textContent = name;
+    document.getElementById('rollNumber').textContent = rollNumber;
 
-    // Function to update date and time
     function updateDateTime() {
       const currentDateTimeElement = document.getElementById('currentDateTime');
       const now = new Date();
@@ -93,55 +84,47 @@ document.getElementById('rollNumber').textContent = rollNumber;
       document.getElementById('contentArea').innerHTML = '<p>To-Do Lists content goes here.</p>';
     }
 
-   // Function to calculate the distance between two sets of coordinates
-   function showUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(displayUserLocation, handleGeolocationError);
-  } else {
-    document.getElementById('contentArea').innerHTML = '<p>Geolocation is not supported by your browser.</p>';
-  }
-}
-
-function displayUserLocation(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
-  const altitude = position.coords.altitude;
-
-  const targetLatitude =  // Set your target latitude;
-  const targetLongitude =  // Set your target longitude;
-  const targetAltitude =  // Set your target altitude;
-
-  const distance = calculateDistance(latitude, longitude, altitude, targetLatitude, targetLongitude, targetAltitude);
-
-  if (distance < 1) {
-    document.getElementById('contentArea').innerHTML = '<p>User is present.</p>';
-  } else {
-    document.getElementById('contentArea').innerHTML = '<p>User is absent.</p>';
-  }
-}
-
-function handleGeolocationError(error) {
-  console.error('Error getting user location:', error.message);
-  document.getElementById('contentArea').innerHTML = `<p>Error getting user location: ${error.message}</p>`;
-}
-
-function calculateDistance(lat1, lon1, alt1, lat2, lon2, alt2) {
-  const R = 6371; // Radius of the Earth in kilometers
-
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; 
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const dAlt = alt2 - alt1;
-
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * (Math.PI / 180)) *
       Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dAlt / 2) * Math.sin(dAlt / 2);
-
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; // Distance in kilometers
+  const distance = R * c; 
   return distance;
+}
+
+function showUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const userLatitude = position.coords.latitude;
+      const userLongitude = position.coords.longitude;
+      const targetLatitude = 37.7749; 
+      const targetLongitude = -122.4194; 
+
+      const distanceThreshold = 1.0; 
+
+      const distance = calculateDistance(
+        userLatitude,
+        userLongitude,
+        targetLatitude,
+        targetLongitude
+      );
+
+      const contentArea = document.getElementById('contentArea');
+      if (distance <= distanceThreshold) {
+        contentArea.innerHTML = `<p>User is present at Location: Latitude ${userLatitude}, Longitude ${userLongitude}</p>`;
+      } else {
+        contentArea.innerHTML = `<p>User is absent. Distance: ${distance.toFixed(2)} km</p>`;
+      }
+    });
+  } else {
+    document.getElementById('contentArea').innerHTML =
+      '<p>Geolocation is not supported by your browser.</p>';
+  }
 }
