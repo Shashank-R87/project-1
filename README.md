@@ -1,5 +1,5 @@
 project/
-|-- server.js
+|-- server.js 
 |-- public/
 |   |-- dashboard.html
 |   |-- register.html 
