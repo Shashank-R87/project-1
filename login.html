@@ -3,27 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registration</title>
+  <title>User Login</title>
 </head>
 <body>
-  <h1>User Registration</h1>
+  <h1>User Login</h1>
 
-  <!-- Registration Form -->
-  <form id="registrationForm">
+  <form id="loginForm">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
-    <br>
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    <br>
-    <label for="rollNumber">Roll Number:</label>
-    <input type="text" id="rollNumber" name="rollNumber" required>
     <br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
     <br>
-    <button type="button" onclick="registerUser()">Register</button>
+    <button type="button" onclick="loginUser()">Login</button>
   </form>
+
+  <p>Don't have an account? <a href="register.html">Register here</a></p>
 
   <script src="auth.js"></script>
 </body>
