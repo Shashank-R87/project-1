@@ -16,10 +16,10 @@ async function registerUser() {
       const result = await response.json();
   
       if (response.ok) {
-        // Store user details in sessionStorage
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('name', name);
-        sessionStorage.setItem('rollNumber', rollNumber);
+        // Store user details in localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('name', name);
+        localStorage.setItem('rollNumber', rollNumber);
   
         alert('Registration successful!');
         window.location.href = result.redirectTo;
@@ -48,10 +48,10 @@ async function registerUser() {
       const result = await response.json();
   
       if (response.ok) {
-        // Store user details in sessionStorage
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('name', result.name);
-        sessionStorage.setItem('rollNumber', result.rollNumber);
+        // Store user details in localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('name', result.name);
+        localStorage.setItem('rollNumber', result.rollNumber);
   
         alert('Login successful!');
         window.location.href = result.redirectTo;
