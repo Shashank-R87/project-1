@@ -32,7 +32,7 @@ app.post('/register', (req, res) => {
   registeredUsers.push(newUser);
 
   // For testing purposes, just sending a success message
-  res.json({ message: 'Registration successful', redirectTo: 'http://localhost:8080/dashboard.html' });
+  res.json({ message: 'Registration successful', redirectTo: 'http://127.0.0.1:5500/dashboard.html' });
 });
 
 // Login route
@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
   const user = registeredUsers.find(u => u.username === username && u.password === password);
 
   if (user) {
-    res.json({ message: 'Login successful', redirectTo: 'http://localhost:8080/dashboard.html' });
+    res.json({ message: 'Login successful', redirectTo: 'http://127.0.0.1:5500/dashboard.html' });
   } else {
     res.status(401).json({ message: 'Invalid credentials' });
   }

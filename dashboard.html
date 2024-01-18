@@ -1,130 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container mt-4">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="text-center mb-4">Dashboard</h1>
-        <p>Welcome, <span id="name"></span>!</p>
-        <p>Roll Number: <span id="rollNumber"></span></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center mb-4">Dashboard</h1>
+          <p>Welcome, <span id="name"></span>!</p>
+          <p>Roll Number: <span id="rollNumber"></span></p>
+  
+          <div class="mt-4">
+            <p id="dateTime"><span id="currentDateTime"></span></p>
+          </div>
 
-        <div class="mt-4">
-          <p id="dateTime"><span id="currentDateTime"></span></p>
-        </div>
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="dashboard.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
+              </li>
+            </ul>
+          </nav>
+          <div id="mainContent">
+            <h2>Categories</h2>
+            <ul>
+              <li><a href="#" onclick="showAttendance()">Attendance</a></li>
+              <li><a href="#" onclick="showTimeTable()">Time Table</a></li>
+              <li><a href="#" onclick="showDeadlines()">Deadlines</a></li>
+              <li><a href="#" onclick="showToDoLists()">To-Do Lists</a></li>
+              <li>
+                <a href="#" onclick="showUserLocation()">User Location</a>
+              </li>
+            </ul>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" onclick="logoutUser()">Logout</a>
-            </li>
-          </ul>
-        </nav>
-        <div id="mainContent">
-          <h2>Categories</h2>
-          <ul>
-            <li><a href="#" onclick="showAttendance()">Attendance</a></li>
-            <li><a href="#" onclick="showTimeTable()">Time Table</a></li>
-            <li><a href="#" onclick="showDeadlines()">Deadlines</a></li>
-            <li><a href="#" onclick="showToDoLists()">To-Do Lists</a></li>
-            <li><a href="#" onclick="showUserLocation()">User Location</a></li>
-          </ul>
-
-          <div id="contentArea">
+            <div id="contentArea"></div>
           </div>
         </div>
-
       </div>
     </div>
-  </div>
+    <script>
+      const name = localStorage.getItem("name");
+      const rollNumber = localStorage.getItem("rollNumber");
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
-    const name = sessionStorage.getItem('name');
-    const rollNumber = sessionStorage.getItem('rollNumber');
+      document.getElementById("name").innerText = name;
+      document.getElementById("rollNumber").innerText = rollNumber;
 
-    document.getElementById('name').textContent = name;
-    document.getElementById('rollNumber').textContent = rollNumber;
-
-    function updateDateTime() {
-      const currentDateTimeElement = document.getElementById('currentDateTime');
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-      const formattedDateTime = now.toLocaleDateString('en-US', options);
-      currentDateTimeElement.textContent = formattedDateTime;
-    }
-    updateDateTime();
-
-    setInterval(updateDateTime, 1000);
-
-    function showAttendance() {
-      document.getElementById('contentArea').innerHTML = '<p>Attendance content goes here.</p>';
-    }
-
-    function showTimeTable() {
-      document.getElementById('contentArea').innerHTML = '<p>Time Table content goes here.</p>';
-    }
-
-    function showDeadlines() {
-      document.getElementById('contentArea').innerHTML = '<p>Deadlines content goes here.</p>';
-    }
-
-    function showToDoLists() {
-      document.getElementById('contentArea').innerHTML = '<p>To-Do Lists content goes here.</p>';
-    }
-
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; 
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; 
-  return distance;
-}
-
-function showUserLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const userLatitude = position.coords.latitude;
-      const userLongitude = position.coords.longitude;
-      const targetLatitude = 37.7749; 
-      const targetLongitude = -122.4194; 
-
-      const distanceThreshold = 1.0; 
-
-      const distance = calculateDistance(
-        userLatitude,
-        userLongitude,
-        targetLatitude,
-        targetLongitude
-      );
-
-      const contentArea = document.getElementById('contentArea');
-      if (distance <= distanceThreshold) {
-        contentArea.innerHTML = `<p>User is present at Location: Latitude ${userLatitude}, Longitude ${userLongitude}</p>`;
-      } else {
-        contentArea.innerHTML = `<p>User is absent. Distance: ${distance.toFixed(2)} km</p>`;
+      function updateDateTime() {
+        const currentDateTimeElement =
+          document.getElementById("currentDateTime");
+        const now = new Date();
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        };
+        const formattedDateTime = now.toLocaleDateString("en-US", options);
+        currentDateTimeElement.textContent = formattedDateTime;
       }
-    });
-  } else {
-    document.getElementById('contentArea').innerHTML =
-      '<p>Geolocation is not supported by your browser.</p>';
-  }
-}
+      updateDateTime();
+
+      setInterval(updateDateTime, 1000);
+
+      function showAttendance() {
+        document.getElementById("contentArea").innerHTML =
+          "<p>Attendance content goes here.</p>";
+      }
+
+      function showTimeTable() {
+        document.getElementById("contentArea").innerHTML =
+          "<p>Time Table content goes here.</p>";
+      }
+
+      function showDeadlines() {
+        document.getElementById("contentArea").innerHTML =
+          "<p>Deadlines content goes here.</p>";
+      }
+
+      function showToDoLists() {
+        document.getElementById("contentArea").innerHTML =
+          "<p>To-Do Lists content goes here.</p>";
+      }
+
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * (Math.PI / 180)) *
+            Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        return distance;
+      }
+
+      function showUserLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            const userLatitude = position.coords.latitude;
+            const userLongitude = position.coords.longitude;
+            const targetLatitude = 37.7749;
+            const targetLongitude = -122.4194;
+
+            const distanceThreshold = 1.0;
+
+            const distance = calculateDistance(
+              userLatitude,
+              userLongitude,
+              targetLatitude,
+              targetLongitude
+            );
+
+            const contentArea = document.getElementById("contentArea");
+            if (distance <= distanceThreshold) {
+              contentArea.innerHTML = `<p>User is present at Location: Latitude ${userLatitude}, Longitude ${userLongitude}</p>`;
+            } else {
+              contentArea.innerHTML = `<p>User is absent. Distance: ${distance.toFixed(
+                2
+              )} km</p>`;
+            }
+          });
+        } else {
+          document.getElementById("contentArea").innerHTML =
+            "<p>Geolocation is not supported by your browser.</p>";
+        }
+      }
+    </script>
+  </body>
+</html>
